@@ -42,7 +42,18 @@ function handleKeyboardKeyUpEvent(event) {
 
   if (playerPressed === expectedAlphabet) {
     console.log("You type right key");
+    plusPoint("current-score");
+    continueGame();
+    removeBackgroundColor(expectedAlphabet);
   } else {
     console.log("You type wrong");
   }
+}
+
+function plusPoint(id) {
+  const currentScoreElement = document.getElementById(id);
+  const currentScoreText = currentScoreElement.innerText;
+  let currentScore = parseInt(currentScoreText);
+  const newScore = currentScore + 1;
+  currentScoreElement.innerText = newScore;
 }
