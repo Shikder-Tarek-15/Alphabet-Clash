@@ -8,6 +8,24 @@ function visibleElementById(id) {
   element.classList.remove("hidden");
 }
 
+function getTextElementById(id) {
+  const valueElement = document.getElementById(id);
+  const valueText = valueElement.innerText;
+  const value = parseInt(valueText);
+  return value;
+}
+
+function getElementTextById(id) {
+  const valueElement = document.getElementById(id);
+  const valueText = valueElement.innerText;
+  return valueText;
+}
+
+function setTextElementById(id, value) {
+  let valueElement = document.getElementById(id);
+  valueElement.innerText = value;
+}
+
 function getRandomAlphabet() {
   const alphabetSrting = "abcdefghijklmnopqrstuvwxyz";
   const alphabets = alphabetSrting.split("");
