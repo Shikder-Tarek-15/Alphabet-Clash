@@ -1,39 +1,11 @@
-// function play() {
-//   const homeSection = document.getElementById("home-screen");
-//   homeSection.classList.add("hidden");
-
-//   const playGroundSection = document.getElementById("play-ground");
-//   playGroundSection.classList.remove("hidden");
-// }
-
-function play() {
-  hideElementById("home-screen");
-  hideElementById("final-score-section");
-  visibleElementById("play-ground");
-
-  setTextElementById("current-life", 5);
-  setTextElementById("current-score", 0);
-
-  continueGame();
-}
-
-function continueGame() {
-  const alphabet = getRandomAlphabet();
-
-  const currentAlphabetElement = document.getElementById("current-alphabet");
-  currentAlphabetElement.innerText = alphabet;
-
-  setBackgroundColor(alphabet);
-}
-
-// document.addEventListener("keyup", function (event) {
-//   console.log("I am pressed", event.key);
-// });
-
 document.addEventListener("keyup", handleKeyboardKeyUpEvent);
+
+const audio = new Audio();
+let isGamePlayOn = false;
 
 //pressed key
 function handleKeyboardKeyUpEvent(event) {
+  if (isGamePlayOn == false) return;
   const playerPressed = event.key;
   console.log("Player pressed", playerPressed);
 
@@ -55,11 +27,17 @@ function handleKeyboardKeyUpEvent(event) {
     setTextElementById("current-score", newScore);
     continueGame();
     removeBackgroundColor(expectedAlphabet);
+
+    audio.src = "../audio/right.wav";
+    audio.play();
   } else {
     console.log("You type wrong");
     const life = getTextElementById("current-life");
     const updateLife = life - 1;
     setTextElementById("current-life", updateLife);
+
+    audio.src = "../audio/wrong.wav";
+    audio.play();
     if (updateLife <= 0) {
       gameOver();
     }
@@ -67,12 +45,35 @@ function handleKeyboardKeyUpEvent(event) {
 }
 
 function gameOver() {
+  audio.src = "../audio/over.wav";
+  audio.play();
   hideElementById("play-ground");
   const finalScore = getTextElementById("current-score");
   setTextElementById("final-score", finalScore);
   visibleElementById("final-score-section");
+  isGamePlayOn = false;
 
   //clear last selected alphabet
   const element = getElementTextById("current-alphabet");
   removeBackgroundColor(element);
+}
+
+function play() {
+  hideElementById("home-screen");
+  hideElementById("final-score-section");
+  visibleElementById("play-ground");
+  isGamePlayOn = true;
+  setTextElementById("current-life", 5);
+  setTextElementById("current-score", 0);
+
+  continueGame();
+}
+
+function continueGame() {
+  const alphabet = getRandomAlphabet();
+
+  const currentAlphabetElement = document.getElementById("current-alphabet");
+  currentAlphabetElement.innerText = alphabet;
+
+  setBackgroundColor(alphabet);
 }
